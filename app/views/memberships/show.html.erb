@@ -1,0 +1,10 @@
+<h3>Hallo <%= @membership.name %></h3>
+
+<%= form_for @membership, url: { :action => "edit" }, method: :put do |form| %>
+  <%= form.number_field :amount, in: 80.0..120.0, step: 0.5 %>
+  <%= form.submit "Speichern" %>
+<% end %>
+
+<% if flash[:notice].present? %>
+  <p><%= flash[:notice] %></p>
+<% end %>
