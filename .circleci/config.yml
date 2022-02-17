@@ -1,0 +1,26 @@
+version: 2.1
+
+workflows:
+  my-workflow:
+    jobs:
+      - build:
+          context:
+            - docker-hub
+
+jobs:
+  build:
+    docker:
+      - image: docker:18.06.3-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build application Docker image
+          command: |
+            docker build -t soladi/gebote-app:$CIRCLE_BUILD_NUM .
+            docker tag soladi/gebote-app:$CIRCLE_BUILD_NUM soladi/gebote-app:latest
+      - run: |
+          TAG=$CIRCLE_BUILD_NUM
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker push soladi/gebote-app:$CIRCLE_BUILD_NUM
+          docker push soladi/gebote-app:latest
