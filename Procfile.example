@@ -1,1 +1,2 @@
 web: bundle exec rails s -p $RAILS_PORT
+css: bin/rails tailwindcss:watch

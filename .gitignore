@@ -31,3 +31,6 @@
 # Ignore .env
 /.env
 /Procfile
+
+/app/assets/builds/*
+!/app/assets/builds/.keep
