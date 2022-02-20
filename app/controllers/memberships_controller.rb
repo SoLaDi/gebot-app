@@ -47,8 +47,8 @@ class MembershipsController < ApplicationController
 
   def headers
     {
-      'Content-Type' =>'application/json',
-      'Authorization' => "Key #{ENV['SOLADI_API_SECRET_KEY']}",
+      'Content-Type' => 'application/json',
+      'Authorization' => "Token token=#{ENV['SOLADI_API_SECRET_KEY']}"
     }
   end
 end
