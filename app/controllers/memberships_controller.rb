@@ -1,7 +1,7 @@
 class MembershipsController < ApplicationController
   def show
     flash[:notice] = nil
-    response = conn.get(ENV['SOLADI_API_LOGIN_PATH'], { token: params[:id] }, headers)
+    response = conn.get('/api/magic_link/login', { token: params[:id] }, headers)
 
     if response.status != 200
       # raise
