@@ -1,25 +1,18 @@
 class MembershipsController < ApplicationController
   def show
     flash[:notice] = nil
+    response = conn.get(ENV['SOLADI_API_LOGIN_PATH'], { token: params[:id] }, headers)
 
-    if Rails.env.development?
-      @membership = Membership.new({
-        name: 'Max Müller',
-        amount: 90.0,
-      })
+    if response.status != 200
+      # raise
+      redirect_to not_found_path
     else
-      response = conn.get(ENV['SOLADI_API_LOGIN_PATH'], { token: params[:id] }, headers)
+      data = JSON.parse(response.body, symbolize_names: true)
 
-      if response.status != 200
-        redirect_to not_found_path
-      else
-        data = JSON.parse(response.body, symbolize_names: true)
-
-        @membership = Membership.new({
-          name: [data[:name], data[:surname]].join(' '),
-          amount: data[:membership][:bids][0][:amount],
-        })
-      end
+      @membership = Membership.new({
+        name: [data[:name], data[:surname]].join(' '),
+        amount: data[:membership][:bids][0][:amount],
+      })
     end
   end
 
