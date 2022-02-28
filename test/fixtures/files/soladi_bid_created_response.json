@@ -1,0 +1,9 @@
+{
+  "bid": {
+    "start_date": "2022-04-01",
+    "end_date": "2023-03-31",
+    "membership_id": 1,
+    "amount": 95.2,
+    "shares": 2
+  }
+}

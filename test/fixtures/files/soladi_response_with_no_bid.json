@@ -1,0 +1,16 @@
+{
+  "person_id": 1,
+  "name": "Max",
+  "surname": "Mustermann",
+  "membership": {
+    "id": 1,
+    "users": [
+      {
+        "id": 1,
+        "name": "Max",
+        "surname": "Mustermann"
+      }
+    ],
+    "bids": []
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "person_id": 1,
+  "name": "Max",
+  "surname": "Mustermann",
+  "membership": {
+    "id": 1,
+    "users": [
+      {
+        "id": 1,
+        "name": "Max",
+        "surname": "Mustermann"
+      }
+    ],
+    "bids": [
+      {
+        "id": 1,
+        "start_date": "2021-04-01",
+        "end_date": "2022-03-01",
+        "amount": "99.0",
+        "shares": 1
+      }
+    ]
+  }
+}

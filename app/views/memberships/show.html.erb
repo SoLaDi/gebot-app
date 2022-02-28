@@ -2,12 +2,29 @@
   Hallo <%= @membership.name %>
 </h3>
 
-<%= form_for @membership, url: { :action => "edit" }, method: :put do |form| %>
-  <%= form.hidden_field :id %>
-  <%= form.hidden_field :name %>
-  <%= form.number_field :amount, in: 80.0..120.0, step: 0.5 %>
-  <br/>
-  <%= form.button "Speichern" %>
+<% if @membership.has_current_bid %>
+  <div id="current_bid">
+    <p>Es wurde bereits ein Gebot abgegeben für deine Mitgliedschaft mit folgenden Daten:</p>
+    <p>Mitgliedschaftsnummer: <%= @membership.id %></p>
+    <p>Betrag: <%= @membership.amount %></p>
+    <p>Anteile: <%= @membership.shares %></p>
+  </div>
+
+<% else %>
+  <div id="new_bid_form">
+    Du hast momentan <%= @membership.shares %> Anteile.
+    <br/>
+    <br/>
+    <%= form_for @membership, url: { :action => "edit" }, method: :put do |form| %>
+      <%= form.hidden_field :id %>
+      <%= form.hidden_field :name %>
+      <%= form.hidden_field :shares %>
+      <%= form.label :amount, "Dein neuer Mitgliedsbeitrag für 2022:" %>
+      <%= form.number_field :amount, in: 80.0..120.0, step: 0.1 %>
+      <br/>
+      <%= form.button "Speichern" %>
+    <% end %>
+  </div>
 <% end %>
 
 <% if flash[:notice].present? %>
