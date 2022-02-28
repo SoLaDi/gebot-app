@@ -80,7 +80,7 @@ class MembershipControllerTest < ActionDispatch::IntegrationTest
 
     stub_request(:post, "https://my-soladi-url/api/bids").
       with(
-        body: "{\"bid\":{\"start_date\":\"2022-04-01\",\"end_date\":\"2023-03-31\",\"membership_id\":1,\"amount\":90.9,\"shares\":2}}",
+        body: "{\"bid\":{\"start_date\":\"2022-04-01\",\"end_date\":\"2023-03-31\",\"person_id\":1,\"membership_id\":1,\"amount\":90.9,\"shares\":2}}",
         headers: {
           'Accept' => '*/*',
           'Authorization' => 'Token token=foobaa',

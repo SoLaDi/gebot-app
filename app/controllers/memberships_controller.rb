@@ -60,7 +60,7 @@ class MembershipsController < ApplicationController
         bid: {
           start_date: "2022-04-01",
           end_date: "2023-03-31",
-          person: session[:person_id],
+          person_id: session[:person_id],
           membership_id: update_params[:id].to_i,
           amount: update_params[:amount].to_f,
           shares: update_params[:shares].to_i,
