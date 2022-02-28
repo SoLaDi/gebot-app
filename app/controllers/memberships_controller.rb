@@ -1,18 +1,27 @@
 class MembershipsController < ApplicationController
   def show
     flash[:notice] = nil
-    response = conn.get('/api/magic_link/login', { token: params[:id] }, headers)
+    magic_token = params[:id]
+    Rails.logger.info "Going to check magic token: #{magic_token}"
+    response = conn.get('/api/magic_link/login', { token: magic_token }, headers)
 
     if response.status != 200
+      Rails.logger.warn "Invalid token supplied. Soladi response was: #{response.inspect}"
       redirect_to not_found_path
     else
       data = JSON.parse(response.body, symbolize_names: true)
-      session[:membership_id] = data[:membership][:id]
+      membership_id = data[:membership][:id]
+      person_id = data[:person_id]
+      session[:membership_id] = membership_id
+      session[:person_id] = person_id
+
+      Rails.logger.info "User was identified as person '#{person_id}' belonging to membership '#{membership_id}'"
 
       bids = data[:membership][:bids]
       current_bid = bids.filter { |bid| bid[:start_date] == "2022-04-01" }.first
 
       if current_bid
+        Rails.logger.info "membership has current bid: #{current_bid.inspect}"
         @membership = Membership.new(
           {
             id: data[:membership][:id],
@@ -22,6 +31,8 @@ class MembershipsController < ApplicationController
             has_current_bid: true
           })
       else
+        Rails.logger.info "membership has no current bid"
+
         last_bid = bids.filter { |bid| bid[:start_date] == "2021-04-01" }.first
         # we take last years number of shares or 1 if no old bid is found
         shares = last_bid ? last_bid[:shares] : 1
@@ -41,6 +52,7 @@ class MembershipsController < ApplicationController
 
   def edit
     if !session[:membership_id] || session[:membership_id] == update_params[:id]
+      Rails.logger.warn "A bid should be placed for membership id: #{update_params[:id]} but the users session belongs to id: #{session[:membership_id]}"
       redirect_to unauthorized_path
     else
 
@@ -48,6 +60,7 @@ class MembershipsController < ApplicationController
         bid: {
           start_date: "2022-04-01",
           end_date: "2023-03-31",
+          person: session[:person_id],
           membership_id: update_params[:id].to_i,
           amount: update_params[:amount].to_f,
           shares: update_params[:shares].to_i,
@@ -57,9 +70,11 @@ class MembershipsController < ApplicationController
       response = conn.post('/api/bids', body.to_json, headers)
 
       if response.status == 202
+        Rails.logger.info("Bid placed successfully")
         flash[:notice] = 'Gebot aktualisiert!'
       else
-        flash[:notice] = JSON.parse(response.body)['base'].join(' ')
+        Rails.logger.error("Failed to place bid: #{response.inspect}")
+        flash[:notice] = JSON.parse(response.body)
       end
 
       @membership = Membership.new({
