@@ -68,6 +68,32 @@ class MembershipControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to unauthorized_path
   end
 
+  test "should deny changes of other memberships bids" do
+    stub_request(:get, "#{soladi_mock_url}/api/magic_link/login?token=a-random-token").
+      with(
+        headers: {
+          'Accept' => '*/*',
+          'Authorization' => "Token token=#{soladi_token}",
+          'Content-Type' => 'application/json',
+        }).
+      to_return(status: 200, body: file_fixture('soladi_response_with_old_bid.json').read, headers: {})
+
+    stub_request(:post, "https://my-soladi-url/api/bids").
+      with(
+        body: "{\"bid\":{\"start_date\":\"2022-04-01\",\"end_date\":\"2023-03-31\",\"person_id\":1,\"membership_id\":100,\"amount\":90.9,\"shares\":2}}",
+        headers: {
+          'Accept' => '*/*',
+          'Authorization' => 'Token token=foobaa',
+          'Content-Type' => 'application/json',
+        }).
+      to_return(status: 202, body: file_fixture("soladi_bid_created_response.json"), headers: {})
+
+    get membership_url("a-random-token")
+    put membership_url("a-random-token"), params: { membership: { amount: 90.9, shares: 2, id: 100, name: "Max Mustermann" } }
+
+    assert_redirected_to unauthorized_path
+  end
+
   test "should create a new bid" do
     stub_request(:get, "#{soladi_mock_url}/api/magic_link/login?token=a-random-token").
       with(

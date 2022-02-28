@@ -51,7 +51,7 @@ class MembershipsController < ApplicationController
   end
 
   def edit
-    if !session[:membership_id] || session[:membership_id] == update_params[:id]
+    if !session[:membership_id] || session[:membership_id].to_s != update_params[:id].to_s
       Rails.logger.warn "A bid should be placed for membership id: #{update_params[:id]} but the users session belongs to id: #{session[:membership_id]}"
       redirect_to unauthorized_path
     else
