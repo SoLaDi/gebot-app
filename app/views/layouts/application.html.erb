@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>GebotApp</title>
+    <title>Bieterrunde 2022 - Gärtnerei Apfeltraum</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5">
+  <body class="h-screen bg-gradient-to-b from-apfeltraum/20 via-white">
+    <main class="container mx-auto p-5 max-w-xl">
       <%= yield %>
     </main>
   </body>

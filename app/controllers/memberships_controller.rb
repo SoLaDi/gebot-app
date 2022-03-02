@@ -1,6 +1,7 @@
 class MembershipsController < ApplicationController
   def show
     flash[:notice] = nil
+    flash[:error] = nil
     magic_token = params[:id]
     Rails.logger.info "Going to check magic token: #{magic_token}"
     response = conn.get('/api/magic_link/login', { token: magic_token }, headers)
@@ -71,10 +72,10 @@ class MembershipsController < ApplicationController
 
       if response.status == 202
         Rails.logger.info("Bid placed successfully")
-        flash[:notice] = 'Gebot aktualisiert!'
+        flash[:notice] = 'Dein Mitgliedsbeitrag wurde erfolgreich gespeichert'
       else
         Rails.logger.error("Failed to place bid: #{response.inspect}")
-        flash[:notice] = JSON.parse(response.body)
+        flash[:error] = JSON.parse(response.body)
       end
 
       @membership = Membership.new({
