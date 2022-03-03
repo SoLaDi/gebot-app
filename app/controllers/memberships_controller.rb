@@ -75,7 +75,7 @@ class MembershipsController < ApplicationController
       if response.status == 202
         Rails.logger.info("Bid placed successfully")
         flash[:notice] = 'Dein Mitgliedsbeitrag wurde erfolgreich gespeichert'
-        MemberMailer.with(name: update_params[:name], email: '', bid: update_params[:amount].to_f).notify_bid.deliver_later
+        MemberMailer.with(name: update_params[:name], email: update_params[:email], bid: update_params[:amount].to_f).notify_bid.deliver_later
       else
         Rails.logger.error("Failed to place bid: #{response.inspect}")
         flash[:error] = JSON.parse(response.body)
@@ -84,6 +84,7 @@ class MembershipsController < ApplicationController
       @membership = Membership.new({
                                      id: update_params[:id].to_i,
                                      name: update_params[:name],
+                                     name: update_params[:email],
                                      amount: update_params[:amount].to_f,
                                      shares: update_params[:shares].to_i,
                                    })
@@ -95,7 +96,7 @@ class MembershipsController < ApplicationController
   private
 
   def update_params
-    params.require(:membership).permit(:amount, :shares, :id, :name)
+    params.require(:membership).permit(:amount, :shares, :id, :name, :email)
   end
 
   def conn
