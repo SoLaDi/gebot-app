@@ -51,6 +51,7 @@
     <%= form_for @membership, url: { :action => "edit" }, method: :put do |form| %>
       <%= form.hidden_field :id %>
       <%= form.hidden_field :name %>
+      <%= form.hidden_field :email %>
       <%= form.hidden_field :shares %>
       <%= form.label :amount, "Dein neuer Mitgliedsbeitrag für 2022:" %>
       <div class="mt-1 flex flex-col sm:flex-row">
