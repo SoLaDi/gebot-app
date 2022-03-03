@@ -27,6 +27,7 @@ class MembershipsController < ApplicationController
           {
             id: data[:membership][:id],
             name: [data[:name], data[:surname]].join(' '),
+            email: data[:email],
             amount: current_bid[:amount],
             shares: current_bid[:shares],
             has_current_bid: true
@@ -43,6 +44,7 @@ class MembershipsController < ApplicationController
           {
             id: data[:membership][:id],
             name: [data[:name], data[:surname]].join(' '),
+            email: data[:email],
             amount: default_amount,
             shares: shares,
             has_current_bid: false
