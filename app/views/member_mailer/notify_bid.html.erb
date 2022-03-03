@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-  </head>
-  <body>
-    <h1>Hallo <%= @name %>,</h1>
-    <p>
-      dein Mitgliedsbeitrag wurde erfolgreich gespeichert: <b><%= @bid %> €</b>.
-    </p>
-  </body>
-</html>
+<img
+  src="https://solawi.gaertnerei-apfeltraum.de/wp-content/uploads/2020/01/logo-bw.png"
+  alt="Logo Gärtnerei Apfeltraum"
+  title="Logo Gärtnerei Apfeltraum"
+>
+<h3>Hallo <%= @name %>,</h3>
+<p>
+  dein Mitgliedsbeitrag wurde erfolgreich gespeichert: <b><%= number_to_currency(@bid) %></b>.
+</p>
+<p>Danke!</p>
