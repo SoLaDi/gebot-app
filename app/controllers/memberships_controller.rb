@@ -75,7 +75,7 @@ class MembershipsController < ApplicationController
       if response.status == 202
         Rails.logger.info("Bid placed successfully")
         flash[:notice] = 'Dein Mitgliedsbeitrag wurde erfolgreich gespeichert'
-        MemberMailer.with(name: update_params[:name], email: update_params[:email], bid: update_params[:amount].to_f).notify_bid.deliver_later
+        MemberMailer.with(name: update_params[:name], email: update_params[:email], bid: update_params[:amount].to_f, membership_id: update_params[:id]).notify_bid.deliver_later
       else
         Rails.logger.error("Failed to place bid: #{response.inspect}")
         flash[:error] = JSON.parse(response.body)
