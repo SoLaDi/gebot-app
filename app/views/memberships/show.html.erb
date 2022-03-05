@@ -35,17 +35,30 @@
   Hallo <%= @membership.name %>,
 </h3>
 
-<% if @membership.has_current_bid %>
+<% case @membership.status %>
+<% when :bid_placed_by_other_member %>
   <div id="current_bid">
-    <p>Es wurde bereits ein Gebot abgegeben für deine Mitgliedschaft mit folgenden Daten:</p>
-    <p>Mitgliedschaftsnummer: <%= @membership.id %></p>
-    <p>Betrag: <%= @membership.amount %></p>
+    <p>Ein anderes Mitglied hat bereits ein Gebot abgegeben für deine Mitgliedschaft mit der Nummer S<%= @membership.id %>:</p>
+    <p>Betrag: <%= number_to_currency(@membership.amount) %></p>
     <p>Anteile: <%= @membership.shares %></p>
   </div>
-
+<% when :bid_placed_by_self %>
+  <div id="current_bid">
+    <p>Wir haben dein Gebot gespeichert mit folgenden Daten:</p>
+    <p>Mitgliedschaftsnummer: S<%= @membership.id %></p>
+    <p>Betrag: <%= number_to_currency(@membership.amount) %></p>
+    <p>Anteile: <%= @membership.shares %></p>
+  </div>
 <% else %>
   <div id="new_bid_form">
-    du hast momentan <%= @membership.shares %> <%= @membership.shares > 1 ? 'Anteile' : 'Anteil' %>.
+    <% if @membership.shares > 1 %>
+      Deine Mitgliedschaft mit der Nummer S<%= @membership.id %> bezieht momentan <%= @membership.shares %> Anteile.<br/>
+      Dein Gebot bezieht sich auf einen Anteil. Daraus folgt:<br/>
+      <br/>
+      Monatlich zu zahlender Betrag = Dein Gebot mal Anzahl der Anteile.
+    <% else %>
+      Deine Mitgliedschaft hat die Nummer S<%= @membership.id %>.
+    <% end %>
     <br/>
     <br/>
     <%= form_for @membership, url: { :action => "edit" }, method: :put do |form| %>
@@ -53,10 +66,10 @@
       <%= form.hidden_field :name %>
       <%= form.hidden_field :email %>
       <%= form.hidden_field :shares %>
-      <%= form.label :amount, "Dein neuer Mitgliedsbeitrag für 2022:" %>
+      <%= form.label :amount, "Bitte gib dein Gebot für 2022 ein:" %>
       <div class="mt-1 flex flex-col sm:flex-row">
         <div class="relative rounded-md shadow-sm grow sm:mr-1">
-          <%= form.number_field :amount, in: 80.0..120.0, step: 0.1, class: "focus:ring-apfeltraum focus:border-apfeltraum block w-full pr-7 sm:text-sm border-apfeltraum rounded-md" %>
+          <%= form.number_field :amount, in: 50.0..200.0, step: 0.01, class: "focus:ring-apfeltraum focus:border-apfeltraum block w-full pr-7 sm:text-sm border-apfeltraum rounded-md" %>
           <div class="absolute inset-y-0 right-2 pl-3 flex items-center pointer-events-none">
             <span class="text-gray-500 sm:text-sm">€</span>
           </div>
