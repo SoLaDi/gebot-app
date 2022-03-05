@@ -37,9 +37,9 @@
 
 <% if @membership.has_current_bid %>
   <div id="current_bid">
-    <p>Es wurde bereits ein Gebot abgegeben für deine Mitgliedschaft mit folgenden Daten:</p>
-    <p>Mitgliedschaftsnummer: <%= @membership.id %></p>
-    <p>Betrag: <%= @membership.amount %></p>
+    <p>es wurde bereits ein Gebot abgegeben für deine Mitgliedschaft mit folgenden Daten:</p>
+    <p>Mitgliedschaftsnummer: <%= "S#{@membership.id}" %></p>
+    <p>Betrag: <%= number_to_currency(@membership.amount) %></p>
     <p>Anteile: <%= @membership.shares %></p>
   </div>
 
