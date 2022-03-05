@@ -84,7 +84,7 @@ class MembershipsController < ApplicationController
       @membership = Membership.new({
                                      id: update_params[:id].to_i,
                                      name: update_params[:name],
-                                     name: update_params[:email],
+                                     email: update_params[:email],
                                      amount: update_params[:amount].to_f,
                                      shares: update_params[:shares].to_i,
                                    })
