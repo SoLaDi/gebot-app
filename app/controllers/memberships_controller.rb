@@ -1,7 +1,5 @@
 class MembershipsController < ApplicationController
   def show
-    flash[:notice] = nil
-    flash[:error] = nil
     magic_token = params[:id]
     Rails.logger.info "Going to check magic token: #{magic_token}"
     response = conn.get('/api/magic_link/login', { token: magic_token }, headers)
@@ -73,13 +71,11 @@ class MembershipsController < ApplicationController
 
       if response.status == 202
         Rails.logger.info("Bid placed successfully")
-        flash[:notice] = 'Dein Mitgliedsbeitrag wurde erfolgreich gespeichert'
         MemberMailer.with(name: update_params[:name], email: update_params[:email], bid: update_params[:amount].to_f, membership_id: update_params[:id]).notify_bid.deliver_later
         redirect_to membership_path(params[:id])
       else
         Rails.logger.error("Failed to place bid: #{response.inspect}")
-        flash[:error] = JSON.parse(response.body)
-        render :show
+        redirect_to membership_path(params[:id]), error: JSON.parse(response.body)
       end
     end
   end
