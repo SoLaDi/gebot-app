@@ -36,7 +36,7 @@ class MembershipsController < ApplicationController
         last_bid = bids.filter { |bid| bid[:start_date] == "2021-04-01" }.first
         # we take last years number of shares or 1 if no old bid is found
         shares = last_bid ? last_bid[:shares] : 1
-        default_amount = 95.0
+        default_amount = 98.0
 
         @membership = Membership.new(
           {
