@@ -1,7 +1,5 @@
 class MembershipsController < ApplicationController
   def show
-    flash[:notice] = nil
-    flash[:error] = nil
     magic_token = params[:id]
     Rails.logger.info "Going to check magic token: #{magic_token}"
     response = conn.get('/api/magic_link/login', { token: magic_token }, headers)
@@ -25,12 +23,12 @@ class MembershipsController < ApplicationController
         Rails.logger.info "membership has current bid: #{current_bid.inspect}"
         @membership = Membership.new(
           {
+            status: person_id.to_s == current_bid[:person_id].to_s ? :bid_placed_by_self : :bid_placed_by_other_member,
             id: data[:membership][:id],
             name: [data[:name], data[:surname]].join(' '),
             email: data[:email],
             amount: current_bid[:amount],
-            shares: current_bid[:shares],
-            has_current_bid: true
+            shares: current_bid[:shares]
           })
       else
         Rails.logger.info "membership has no current bid"
@@ -38,16 +36,16 @@ class MembershipsController < ApplicationController
         last_bid = bids.filter { |bid| bid[:start_date] == "2021-04-01" }.first
         # we take last years number of shares or 1 if no old bid is found
         shares = last_bid ? last_bid[:shares] : 1
-        default_amount = 95.0
+        default_amount = 98.0
 
         @membership = Membership.new(
           {
+            status: :open_for_bid,
             id: data[:membership][:id],
             name: [data[:name], data[:surname]].join(' '),
             email: data[:email],
             amount: default_amount,
-            shares: shares,
-            has_current_bid: false
+            shares: shares
           })
       end
     end
@@ -58,7 +56,6 @@ class MembershipsController < ApplicationController
       Rails.logger.warn "A bid should be placed for membership id: #{update_params[:id]} but the users session belongs to id: #{session[:membership_id]}"
       redirect_to unauthorized_path
     else
-
       body = {
         bid: {
           start_date: "2022-04-01",
@@ -74,22 +71,12 @@ class MembershipsController < ApplicationController
 
       if response.status == 202
         Rails.logger.info("Bid placed successfully")
-        flash[:notice] = 'Dein Mitgliedsbeitrag wurde erfolgreich gespeichert'
         MemberMailer.with(name: update_params[:name], email: update_params[:email], bid: update_params[:amount].to_f, membership_id: update_params[:id]).notify_bid.deliver_later
+        redirect_to membership_path(params[:id])
       else
         Rails.logger.error("Failed to place bid: #{response.inspect}")
-        flash[:error] = JSON.parse(response.body)
+        redirect_to membership_path(params[:id]), error: JSON.parse(response.body)
       end
-
-      @membership = Membership.new({
-                                     id: update_params[:id].to_i,
-                                     name: update_params[:name],
-                                     name: update_params[:email],
-                                     amount: update_params[:amount].to_f,
-                                     shares: update_params[:shares].to_i,
-                                   })
-
-      render :show
     end
   end
 
