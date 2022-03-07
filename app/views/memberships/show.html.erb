@@ -11,21 +11,21 @@
   Willkommen zur Bieterrunde 2022
 </h1>
 
-<% if flash[:error].present? %>
+<% if error.present? %>
   <div class="w-full mt-3 max-w-7xl mx-auto mb-10">
     <div class="">
       <div class="border-2 border-red bg-red/20 rounded-lg">
-        <p class="text-red py-6 sm:px-6 lg:px-8"><%= flash[:error] %></p>
+        <p class="text-red p-6 sm:px-6 lg:px-8"><%= error %></p>
       </div>
     </div>
   </div>
 <% end %>
 
-<% if flash[:notice].present? %>
+<% if success.present? %>
   <div class="w-full mt-3 max-w-7xl mx-auto mb-10">
     <div class="">
       <div class="border-2 border-apfeltraum bg-apfeltraum/20 rounded-lg">
-        <p class="text-apfeltraum py-6 sm:px-6 lg:px-8"><%= flash[:notice] %></p>
+        <p class="text-apfeltraum p-6 sm:px-6 lg:px-8"><%= success %></p>
       </div>
     </div>
   </div>
