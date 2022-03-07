@@ -72,7 +72,7 @@ class MembershipsController < ApplicationController
       if response.status == 202
         Rails.logger.info("Bid placed successfully")
         MemberMailer.with(name: update_params[:name], email: update_params[:email], bid: update_params[:amount].to_f, membership_id: update_params[:id]).notify_bid.deliver_later
-        redirect_to membership_path(params[:id])
+        redirect_to membership_path(params[:id]), success: 'Dein Gebot wurde erfolgreich gespeichert'
       else
         Rails.logger.error("Failed to place bid: #{response.inspect}")
         redirect_to membership_path(params[:id]), error: JSON.parse(response.body)

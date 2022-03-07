@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  add_flash_types :info, :error, :warning
+  add_flash_types :info, :error, :warning, :success
 
   def index
     if Rails.env.development?

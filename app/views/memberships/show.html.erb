@@ -21,11 +21,11 @@
   </div>
 <% end %>
 
-<% if flash[:notice].present? %>
+<% if success.present? %>
   <div class="w-full mt-3 max-w-7xl mx-auto mb-10">
     <div class="">
       <div class="border-2 border-apfeltraum bg-apfeltraum/20 rounded-lg">
-        <p class="text-apfeltraum py-6 sm:px-6 lg:px-8"><%= flash[:notice] %></p>
+        <p class="text-apfeltraum py-6 sm:px-6 lg:px-8"><%= success %></p>
       </div>
     </div>
   </div>
