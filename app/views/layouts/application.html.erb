@@ -8,9 +8,15 @@
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
   </head>
 
-  <body class="h-screen bg-gradient-to-b from-apfeltraum/20 via-white">
+  <body class="h-screen bg-gradient-to-b from-apfeltraum/20 via-white bg-no-repeat flex flex-col justify-between">
     <main class="container mx-auto p-5 max-w-xl">
       <%= yield %>
     </main>
+    <footer class="min-h-10 text-center text-xs p-3 bg-gradient-to-t from-apfeltraum/20">
+      <%= link_to 'Open source', 'https://github.com/SoLaDi/gebot-app', target: '_blank', style: 'text-decoration: underline' %>
+      with &#128154;&nbsp;&nbsp;by
+      <br/>
+      <b>Initiativkreis Gärtnerei Apfeltraum</b>
+    </footer>
   </body>
 </html>
