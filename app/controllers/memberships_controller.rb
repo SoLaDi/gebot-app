@@ -75,7 +75,7 @@ class MembershipsController < ApplicationController
         redirect_to membership_path(params[:id]), success: 'Dein Gebot wurde erfolgreich gespeichert'
       else
         Rails.logger.error("Failed to place bid: #{response.inspect}")
-        redirect_to membership_path(params[:id]), error: JSON.parse(response.body)
+        redirect_to membership_path(params[:id]), error: JSON.parse(response.body)['base'].to_sentence
       end
     end
   end
