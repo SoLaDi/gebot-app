@@ -14,15 +14,15 @@
     "bids": [
       {
         "id": 1,
-        "start_date": "2022-04-01",
-        "end_date": "2023-03-01",
+        "start_date": "2023-04-01",
+        "end_date": "2024-03-01",
         "amount": "99.0",
         "shares": 1
       },
       {
         "id": 2,
-        "start_date": "2023-04-01",
-        "end_date": "2024-03-01",
+        "start_date": "2024-04-01",
+        "end_date": "2025-03-01",
         "amount": "99.0",
         "shares": 1
       }

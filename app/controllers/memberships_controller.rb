@@ -17,7 +17,7 @@ class MembershipsController < ApplicationController
       Rails.logger.info "User was identified as person '#{person_id}' belonging to membership '#{membership_id}'"
 
       bids = data[:membership][:bids]
-      current_bid = bids.filter { |bid| bid[:start_date] == "2023-04-01" }.first
+      current_bid = bids.filter { |bid| bid[:start_date] == "2024-04-01" }.first
 
       if current_bid
         Rails.logger.info "membership has current bid: #{current_bid.inspect}"
@@ -33,7 +33,7 @@ class MembershipsController < ApplicationController
       else
         Rails.logger.info "membership has no current bid"
 
-        last_bid = bids.filter { |bid| bid[:start_date] == "2022-04-01" }.first
+        last_bid = bids.filter { |bid| bid[:start_date] == "2023-04-01" }.first
         # we take last years number of shares or 1 if no old bid is found
         shares = last_bid ? last_bid[:shares] : 1
         default_amount = 103.12
@@ -58,8 +58,8 @@ class MembershipsController < ApplicationController
     else
       body = {
         bid: {
-          start_date: "2023-04-01",
-          end_date: "2024-03-31",
+          start_date: "2024-04-01",
+          end_date: "2025-03-31",
           person_id: session[:person_id],
           membership_id: update_params[:id].to_i,
           amount: update_params[:amount].to_f,
