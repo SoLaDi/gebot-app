@@ -8,7 +8,7 @@
 >
 
 <h1 class="text-apfeltraum font-bold text-2xl text-center mx-auto my-10">
-  Willkommen zur Bieterrunde 2025
+  Willkommen zur Bieterrunde 2026
 </h1>
 
 <% if error.present? %>
@@ -52,21 +52,21 @@
 <% else %>
   <div id="new_bid_form">
     <% if @membership.shares > 1 %>
-      Deine Mitgliedschaft mit der Nummer S<%= @membership.id %> bezieht momentan <%= @membership.shares %> Anteile.<br/>
-      Dein Gebot bezieht sich auf einen Anteil. Daraus folgt:<br/>
-      <br/>
+      Deine Mitgliedschaft mit der Nummer S<%= @membership.id %> bezieht momentan <%= @membership.shares %> Anteile.<br>
+      Dein Gebot bezieht sich auf einen Anteil. Daraus folgt:<br>
+      <br>
       Monatlich zu zahlender Betrag = Dein Gebot mal Anzahl der Anteile.
     <% else %>
       Deine Mitgliedschaft hat die Nummer S<%= @membership.id %>.
     <% end %>
-    <br/>
-    <br/>
+    <br>
+    <br>
     <%= form_for @membership, url: { :action => "edit" }, method: :put do |form| %>
       <%= form.hidden_field :id %>
       <%= form.hidden_field :name %>
       <%= form.hidden_field :email %>
       <%= form.hidden_field :shares %>
-      <%= form.label :amount, "Bitte gib dein Gebot für 2025 ein:" %>
+      <%= form.label :amount, "Bitte gib dein Gebot für 2026 ein:" %>
       <div class="mt-1 flex flex-col sm:flex-row">
         <div class="relative rounded-md shadow-sm grow sm:mr-1">
           <%= form.number_field :amount, in: 50.0..500.0, step: 0.01, class: "focus:ring-apfeltraum focus:border-apfeltraum block w-full pr-7 sm:text-sm border-apfeltraum rounded-md" %>

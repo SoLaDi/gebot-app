@@ -17,7 +17,7 @@ class MembershipsController < ApplicationController
       Rails.logger.info "User was identified as person '#{person_id}' belonging to membership '#{membership_id}'"
 
       bids = data[:membership][:bids]
-      current_bid = bids.filter { |bid| bid[:start_date] == "2025-04-01" }.first
+      current_bid = bids.filter { |bid| bid[:start_date] == "2026-07-01" }.first
 
       if current_bid
         Rails.logger.info "membership has current bid: #{current_bid.inspect}"
@@ -58,8 +58,8 @@ class MembershipsController < ApplicationController
     else
       body = {
         bid: {
-          start_date: "2025-04-01",
-          end_date: "2026-06-30",
+          start_date: "2026-07-01",
+          end_date: "2027-06-30",
           person_id: session[:person_id],
           membership_id: update_params[:id].to_i,
           amount: update_params[:amount].to_f,
