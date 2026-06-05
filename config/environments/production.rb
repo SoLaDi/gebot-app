@@ -89,7 +89,8 @@ Rails.application.configure do
     domain: ENV['EMAIL_SERVER_DOMAIN'],
     user_name: ENV['EMAIL_SERVER_USER'],
     password: ENV['EMAIL_SERVER_PASSWORD'],
-    authentication: ENV['EMAIL_SERVER_AUTH'],
-    tls: ENV['EMAIL_SERVER_TLS'] == 'true'
+    authentication: (ENV['EMAIL_SERVER_AUTH'] || 'login').to_sym,
+    enable_starttls_auto: ENV['EMAIL_SERVER_TLS'] == 'true',
+    ssl: false
   }
 end
