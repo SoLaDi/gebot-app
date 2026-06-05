@@ -33,10 +33,10 @@ class MembershipsController < ApplicationController
       else
         Rails.logger.info "membership has no current bid"
 
-        last_bid = bids.filter { |bid| bid[:start_date] == "2024-04-01" }.first
+        last_bid = bids.filter { |bid| bid[:start_date] == "2025-04-01" }.first
         # we take last years number of shares or 1 if no old bid is found
         shares = last_bid ? last_bid[:shares] : 1
-        default_amount = 106.80
+        default_amount = 112.54
 
         @membership = Membership.new(
           {
